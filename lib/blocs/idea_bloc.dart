@@ -11,23 +11,16 @@ class IdeaBloc implements BlocBase{
   Sink<Idea> get _inIdea => _ideaController.sink;
   Stream<Idea> get outIdea => _ideaController.stream;
 
-  // Streams to handle the action on the idea
-  StreamController<Idea> _updateIdeaController = StreamController();
-  Sink<Idea> get updateIdea => _updateIdeaController.sink;
-
-
   IdeaBloc(){
     api.getIdea().then((idea){
       _idea = idea;
       _inIdea.add(_idea);
     });
-    _updateIdeaController.stream.listen(_updateIdea);
   }
 
   @override
   void dispose() {
     _ideaController.close();
-    _updateIdeaController.close();
   }
 
   void getNewIdea(){
@@ -37,8 +30,8 @@ class IdeaBloc implements BlocBase{
     });
   }
 
-  void _updateIdea(Idea idea){
-    _idea = idea;
+  void favourite(){
+    _idea.favourited = true;
     _inIdea.add(_idea);
   }
 }
