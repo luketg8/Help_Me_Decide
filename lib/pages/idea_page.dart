@@ -33,9 +33,15 @@ class _IdeaPageState extends State<IdeaPage> {
         ],
       ),
       body: Container(
-        alignment: Alignment.center,
-        child: IdeaWidget(ideaBloc: ideaBloc)),
+          color: Colors.transparent,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+            IdeaWidget(ideaBloc: ideaBloc)
+          ])),
       floatingActionButton: FloatingActionButton(
+          tooltip: "Settings",
           child: Icon(Icons.settings),
           onPressed: () {
             Navigator.push(

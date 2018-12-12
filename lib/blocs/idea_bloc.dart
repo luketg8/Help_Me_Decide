@@ -24,6 +24,7 @@ class IdeaBloc implements BlocBase{
   }
 
   void getNewIdea(){
+    _inIdea.add(null);
     api.getIdea().then((idea){
       _idea = idea;
       _inIdea.add(_idea);
@@ -31,6 +32,7 @@ class IdeaBloc implements BlocBase{
   }
 
   void favourite(){
+    _inIdea.add(null);
     _idea.favourited = true;
     _inIdea.add(_idea);
   }
