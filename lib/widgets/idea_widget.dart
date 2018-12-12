@@ -19,7 +19,14 @@ class IdeaWidget extends StatelessWidget {
       initialData: null,
       builder: (BuildContext context, AsyncSnapshot<Idea> snapshot) {
         return snapshot.data == null
-            ? Icon(Icons.lightbulb_outline, color: Colors.grey, size: 100)
+            ? Container(
+                child: IconButton(
+                  iconSize: 100,
+                    onPressed: () {
+                      ideaBloc.getNewIdea();
+                    },
+                    icon: Icon(Icons.lightbulb_outline),
+                    color: Colors.grey))
             : Dismissible(
                 key: Key(snapshot.data.description),
                 child: Container(
@@ -30,22 +37,8 @@ class IdeaWidget extends StatelessWidget {
                           padding: EdgeInsets.all(16.0),
                           child: Card(
                               child: Column(children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                child: getIconForActivityType(
-                                    snapshot.data.activityType, 50.0)),
-                            Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 100,
-                                  child: Text('${snapshot.data.description}',
-                                    softWrap: true,
-                                    textAlign: TextAlign.center,
-                                    style: new TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                    )))),
+                            idea_icon(snapshot),
+                            description_section(snapshot),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -76,6 +69,27 @@ class IdeaWidget extends StatelessWidget {
                 });
       },
     );
+  }
+
+  Padding idea_icon(AsyncSnapshot<Idea> snapshot) {
+    return Padding(
+        padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+        child: getIconForActivityType(snapshot.data.activityType, 50.0));
+  }
+
+  Padding description_section(AsyncSnapshot<Idea> snapshot) {
+    return Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Container(
+            alignment: Alignment.center,
+            height: 100,
+            child: Text('${snapshot.data.description}',
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black,
+                ))));
   }
 
   ButtonTheme card_options(BuildContext context) {

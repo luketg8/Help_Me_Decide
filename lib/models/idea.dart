@@ -1,7 +1,7 @@
 import 'package:help_me_decide/enums/activity_type.dart';
 
 class Idea{
-  Idea(this.description, this.cost, this.numberOfPeople, this.activityType, this.link){
+  Idea(this.description, this.cost, this.numberOfPeople, this.activityType){
     this.favourited = false;
   }
   Idea.empty(){
@@ -13,7 +13,6 @@ class Idea{
   }
 
   String description;
-  String link;
   double cost;
   int numberOfPeople;
   ActivityType activityType;

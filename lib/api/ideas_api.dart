@@ -12,7 +12,7 @@ class IdeasApi {
     if (idea.statusCode == 200) {
       final jsonResponse = json.decode(idea.body);
       ActivityType activityType = getActivityTypeFromString(jsonResponse["type"]);
-      Idea _idea = Idea(jsonResponse["activity"], jsonResponse["price"].toDouble(), jsonResponse["participants"], activityType, jsonResponse["link"]);
+      Idea _idea = Idea(jsonResponse["activity"], jsonResponse["price"].toDouble(), jsonResponse["participants"], activityType);
       return _idea;
     }
     return Idea.empty();

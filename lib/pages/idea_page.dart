@@ -37,6 +37,7 @@ class _IdeaPageState extends State<IdeaPage> {
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
             IdeaWidget(ideaBloc: ideaBloc)
           ])),
