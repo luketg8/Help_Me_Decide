@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/idea_bloc.dart';
-import 'package:help_me_decide/enums/acitivity_type.dart';
 import 'package:help_me_decide/models/idea.dart';
 import 'package:help_me_decide/widgets/activity_widget.dart';
 import 'package:help_me_decide/widgets/price_widget.dart';
@@ -109,7 +108,7 @@ class IdeaWidget extends StatelessWidget {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> favourite_snackbar(
       BuildContext context) {
     return Scaffold.of(context).showSnackBar(SnackBar(
-      duration: Duration(milliseconds: 250),
+      duration: Duration(milliseconds: 500),
       content:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Padding(

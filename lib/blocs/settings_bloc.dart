@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:help_me_decide/blocs/bloc_provider.dart';
-import 'package:help_me_decide/enums/acitivity_type.dart';
+import 'package:help_me_decide/enums/activity_type.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsBloc implements BlocBase{
-
   // Streams to handle the number of people
   StreamController<int> _numberOfPeopleController = StreamController<int>();
   Sink<int> get _inNumberOfPeople => _numberOfPeopleController.sink;
@@ -23,6 +23,7 @@ class SettingsBloc implements BlocBase{
 
   SettingsBloc(){
     //get initial data from shared preferences
+    getInitialValues();
   }
 
   @override
@@ -31,11 +32,27 @@ class SettingsBloc implements BlocBase{
     _priceController.close();
   }
 
-  void changeNumberOfPeople(int value){
+  void getInitialValues() async {
+    var prefs = await SharedPreferences.getInstance();
+    var price = prefs.getDouble("price");
+    if (price != null)
+    {
+      _inPrice.add(price);
+    }
+    var numOfPeople = prefs.getInt("numOfPeople");
+    if (numOfPeople != null)
+    {
+      _inNumberOfPeople.add(numOfPeople);
+    }
+  }
+
+  void changeNumberOfPeople(int value) async {
+    (await SharedPreferences.getInstance()).setInt("numOfPeople", value);
     _inNumberOfPeople.add(value);
   }
 
-  void changePrice(double value){
+  void changePrice(double value) async {
+    (await SharedPreferences.getInstance()).setDouble("price", value);
     _inPrice.add(value);
   }
 

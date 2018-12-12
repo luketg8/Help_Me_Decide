@@ -33,7 +33,7 @@ class _IdeaPageState extends State<IdeaPage> {
         ],
       ),
       body: Container(
-          color: Colors.transparent,
+          color: Theme.of(context).backgroundColor,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

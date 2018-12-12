@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/bloc_provider.dart';
 import 'package:help_me_decide/blocs/settings_bloc.dart';
-import 'package:help_me_decide/enums/acitivity_type.dart';
+import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:help_me_decide/widgets/activity_widget.dart';
 import 'package:help_me_decide/widgets/price_widget.dart';
 

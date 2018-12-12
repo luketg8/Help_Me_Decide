@@ -11,8 +11,10 @@ class HelpMeDecideApp extends StatelessWidget {
     return MaterialApp(
       title: 'Help Me Decide',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        cardColor: Colors.blue.shade200
+        primarySwatch: Colors.green,
+        primaryColor: Color.fromRGBO(26,83,92,1.0),
+        backgroundColor: Color.fromRGBO(247,255,247,1.0),
+        cardColor: Color.fromRGBO(255,230,109,1.0)
       ),
       home: BlocProvider(bloc: IdeaBloc(), child: IdeaPage()),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:help_me_decide/enums/acitivity_type.dart';
+import 'package:help_me_decide/enums/activity_type.dart';
 
 Icon getIconForActivityType(ActivityType type, double size) {
     switch (type) {
