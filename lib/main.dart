@@ -5,7 +5,8 @@ import 'package:help_me_decide/blocs/idea_bloc.dart';
 import 'package:help_me_decide/pages/idea_page.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(HelpMeDecideApp());
   });
 }
@@ -16,9 +17,8 @@ class HelpMeDecideApp extends StatelessWidget {
     return MaterialApp(
       title: 'Help Me Decide',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        canvasColor: Color.fromRGBO(244,244,244, 1.0)
-      ),
+          primarySwatch: Colors.teal,
+          canvasColor: Color.fromRGBO(244, 244, 244, 1.0)),
       home: BlocProvider(bloc: IdeaBloc(), child: IdeaPage()),
     );
   }

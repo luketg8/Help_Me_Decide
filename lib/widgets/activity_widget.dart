@@ -6,7 +6,7 @@ Icon getIconForActivityType(ActivityType type, double size) {
       case ActivityType.busywork:
         return Icon(Icons.calendar_today, size: size);
       case ActivityType.charity:
-        return Icon(Icons.toys, size: size);
+        return Icon(Icons.pan_tool, size: size);
       case ActivityType.cooking:
         return Icon(Icons.fastfood, size: size);
       case ActivityType.diy:
@@ -16,7 +16,7 @@ Icon getIconForActivityType(ActivityType type, double size) {
       case ActivityType.music:
         return Icon(Icons.music_note, size: size);
       case ActivityType.recreational:
-        return Icon(Icons.accessibility, size: size);
+        return Icon(Icons.rowing, size: size);
       case ActivityType.relaxation:
         return Icon(Icons.airline_seat_recline_extra, size: size);
       case ActivityType.social:

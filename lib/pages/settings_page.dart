@@ -16,7 +16,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final SettingsBloc settingsBloc = BlocProvider.of<SettingsBloc>(context);
     return Scaffold(
-        appBar: AppBar(title: Text('Settings Page')),
+        appBar: AppBar(
+          title: Text('Settings Page')
+        ),
         body: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(

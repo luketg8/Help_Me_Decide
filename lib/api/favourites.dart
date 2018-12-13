@@ -27,22 +27,29 @@ class Favourites {
     "CREATE TABLE Favourite(id INTEGER PRIMARY KEY, description TEXT, cost DOUBLE, people INT, activityType TEXT )");
   }
   
-  Future<Idea> getFavourites() async {
+  Future<List<Idea>> getFavourites() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Favourite');
-    return Idea.empty();
+    List<Idea> ideas = new List<Idea>();
+    if (list.length > 0) {
+      for (var idea in list)
+      {
+        ideas.add(Idea.fromMap(idea));
+      }
+    }
+    return ideas;
   }
 
-  Future<bool> saveData(Idea idea) async {
+  Future saveData(Idea idea) async {
     var dbClient = await db;
     dbClient.rawInsert(
       'INSERT INTO Favourite(description, cost, people, activityType) VALUES(?, ?, ?, ?)',
-      [idea.description, idea.cost, idea.numberOfPeople, idea.activityType]);
-    return true;
+      [idea.description, idea.cost, idea.numberOfPeople, idea.activityType.toString().split('.')[1]]);
   }
 
-  Future<bool> removeData(Idea idea) async {
-    return true;
+  Future removeData(Idea idea) async {
+    var dbClient = await db;
+    dbClient.rawDelete('DELETE FROM Favourite WHERE description = ?', [idea.description]);
   }
 }
 

@@ -17,10 +17,8 @@ class FavouritesBloc implements BlocBase{
   Sink<Idea> get updateIdea => _updateIdeaController.sink;
 
   FavouritesBloc(){
-    favouritesApi.getFavourites().then((idea){
-      _idea.add(idea);
-    });
-    _inIdea.add(_idea);
+    refreshIdeas();
+    
     _updateIdeaController.stream.listen(_updateIdea);
   }
 
@@ -30,9 +28,9 @@ class FavouritesBloc implements BlocBase{
     _updateIdeaController.close();
   }
 
-  void getIdeas(){
-    api.getIdea().then((idea){
-      _idea.add(idea);
+  void refreshIdeas(){
+    favouritesApi.getFavourites().then((idea){
+      _idea = idea;
       _inIdea.add(_idea);
     });
   }
@@ -40,5 +38,10 @@ class FavouritesBloc implements BlocBase{
   void _updateIdea(Idea idea){
     _idea.add(idea);
     _inIdea.add(_idea);
+  }
+
+  void deleteIdea(Idea idea){
+    favouritesApi.removeData(idea);
+    refreshIdeas();
   }
 }

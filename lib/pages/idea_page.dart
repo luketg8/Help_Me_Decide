@@ -48,7 +48,12 @@ class _IdeaPageState extends State<IdeaPage> {
                   ),
                   RaisedButton(
                     color: Colors.teal.shade200,
-                    child: Text("Change Activity"),
+                    child: Text("Change Activity Type"),
+                    onPressed: (){},
+                  ),
+                  RaisedButton(
+                    color: Colors.teal.shade200,
+                    child: Text("Change Number of People"),
                     onPressed: (){},
                   )
                 ],

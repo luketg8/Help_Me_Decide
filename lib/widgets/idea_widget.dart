@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/idea_bloc.dart';
+import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:help_me_decide/models/idea.dart';
 import 'package:help_me_decide/widgets/activity_widget.dart';
 import 'package:help_me_decide/widgets/price_widget.dart';
@@ -43,11 +44,17 @@ class IdeaWidget extends StatelessWidget {
                           : idea_card(snapshot)),
                   onDismissed: (DismissDirection direction) {
                     ideaBloc.getNewIdea();
+                    if (snapshot.data == null || snapshot.data.activityType == ActivityType.anything)
+                    {
+                      return;
+                    }
                     if (direction == DismissDirection.startToEnd) {
+                      ideaBloc.favourite();
+                      ideaBloc.getNewIdea();
                       favourite_snackbar(context);
                     } else {}
                   })),
-          card_options(context)
+          card_options(context, snapshot.data)
         ]);
       },
     );
@@ -59,12 +66,18 @@ class IdeaWidget extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(20))),
         margin: EdgeInsets.all(0.0),
         child: Column(children: <Widget>[
-          Padding(padding: EdgeInsets.only(top:48.0),),
+          Padding(
+            padding: EdgeInsets.only(top: 48.0),
+          ),
           idea_icon(snapshot),
           description_section(snapshot),
-          Padding(padding: EdgeInsets.only(top:48.0),),
+          Padding(
+            padding: EdgeInsets.only(top: 48.0),
+          ),
           cost_icon(snapshot),
-          Padding(padding: EdgeInsets.only(top:48.0),),
+          Padding(
+            padding: EdgeInsets.only(top: 48.0),
+          ),
           number_of_people_icon(snapshot)
         ]));
   }
@@ -106,30 +119,37 @@ class IdeaWidget extends StatelessWidget {
             )));
   }
 
-  ButtonTheme card_options(BuildContext context) {
+  ButtonTheme card_options(BuildContext context, Idea data) {
     return ButtonTheme.bar(
         child: ButtonBar(
       alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         IconButton(
           iconSize: 50,
-          icon: Icon(Icons.delete, color: Colors.black),
-          onPressed: () {
-            ideaBloc.getNewIdea();
-          },
+          disabledColor: Colors.grey,
+          color: Colors.black,
+          icon: Icon(Icons.delete),
+          onPressed: data == null || data.activityType == ActivityType.anything
+              ? null
+              : () {
+                  ideaBloc.getNewIdea();
+                },
         ),
         IconButton(
           iconSize: 50,
           alignment: Alignment.bottomRight,
+          disabledColor: Colors.grey,
+          color: Colors.red,
           icon: Icon(
             Icons.favorite,
-            color: Colors.red,
           ),
-          onPressed: () {
-            ideaBloc.favourite();
-            ideaBloc.getNewIdea();
-            favourite_snackbar(context);
-          },
+          onPressed: data == null || data.activityType == ActivityType.anything
+              ? null
+              : () {
+                  ideaBloc.favourite();
+                  ideaBloc.getNewIdea();
+                  favourite_snackbar(context);
+                },
         )
       ],
     ));

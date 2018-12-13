@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/bloc_provider.dart';
 import 'package:help_me_decide/blocs/favourites_bloc.dart';
 import 'package:help_me_decide/models/idea.dart';
+import 'package:help_me_decide/widgets/favourite_widget.dart';
 
 class FavouritesPage extends StatefulWidget {
   @override
@@ -15,14 +16,14 @@ class _FavouritesPageState extends State<FavouritesPage> {
         BlocProvider.of<FavouritesBloc>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Favourites"),
+          title: Text("Favourites")
         ),
         body: StreamBuilder<List<Idea>>(
             stream: _favouritesBloc.outIdea,
             initialData: null,
             builder:
                 (BuildContext context, AsyncSnapshot<List<Idea>> snapshot) {
-              return snapshot.data == null
+              return snapshot.data == null || snapshot.data.length == 0
                   ? Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,14 +36,14 @@ class _FavouritesPageState extends State<FavouritesPage> {
                           snapshot.data != null ? snapshot.data.length : 0,
                       itemBuilder: (context, i) {
                         final favourite = snapshot.data[i];
-                        Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Column(children: <Widget>[
-                              Text('${favourite.description}', softWrap: true),
-                              Icon(
-                                Icons.done,
-                              )
-                            ]));
+                        return Column(children: <Widget>[
+                              Padding(
+                            padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: FavouriteWidget(
+                                  favourite: favourite,
+                                  favouritesBloc: _favouritesBloc)),
+                              Divider()
+                            ]);
                       });
             }));
   }
