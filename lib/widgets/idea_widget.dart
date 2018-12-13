@@ -18,92 +18,108 @@ class IdeaWidget extends StatelessWidget {
       stream: ideaBloc.outIdea,
       initialData: null,
       builder: (BuildContext context, AsyncSnapshot<Idea> snapshot) {
-        return snapshot.data == null
-            ? Container(
-                child: IconButton(
-                  iconSize: 100,
-                    onPressed: () {
-                      ideaBloc.getNewIdea();
-                    },
-                    icon: Icon(Icons.lightbulb_outline),
-                    color: Colors.grey))
-            : Dismissible(
-                key: Key(snapshot.data.description),
-                child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Card(
-                              child: Column(children: <Widget>[
-                            idea_icon(snapshot),
-                            description_section(snapshot),
-                            Row(
+        return Column(children: <Widget>[
+          Container(
+              height: 400,
+              child: Dismissible(
+                  key: Key(snapshot.data.toString()),
+                  child: Padding(
+                      padding:
+                          EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                      child: snapshot.data == null
+                          ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                getPriceIndicator(snapshot.data.cost),
-                              ],
-                            ),
-                            Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: EdgeInsets.only(right: 8.0),
-                                        child: Icon(Icons.people)),
-                                    Text(
-                                        snapshot.data.numberOfPeople.toString(),
-                                        style: TextStyle(color: Colors.black54))
-                                  ],
-                                )),
-                            card_options(context)
-                          ])))
-                    ])),
-                onDismissed: (DismissDirection direction) {
-                  ideaBloc.getNewIdea();
-                  if (direction == DismissDirection.startToEnd) {
-                    favourite_snackbar(context);
-                  } else {}
-                });
+                                  IconButton(
+                                      iconSize: 100,
+                                      onPressed: () {
+                                        ideaBloc.getNewIdea();
+                                      },
+                                      icon: Icon(Icons.lightbulb_outline),
+                                      color: Colors.grey),
+                                  Text("Powered by http://www.boredapi.com/",
+                                      textAlign: TextAlign.end)
+                                ])
+                          : idea_card(snapshot)),
+                  onDismissed: (DismissDirection direction) {
+                    ideaBloc.getNewIdea();
+                    if (direction == DismissDirection.startToEnd) {
+                      favourite_snackbar(context);
+                    } else {}
+                  })),
+          card_options(context)
+        ]);
       },
     );
   }
 
-  Padding idea_icon(AsyncSnapshot<Idea> snapshot) {
-    return Padding(
-        padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-        child: getIconForActivityType(snapshot.data.activityType, 50.0));
+  Card idea_card(AsyncSnapshot<Idea> snapshot) {
+    return Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        margin: EdgeInsets.all(0.0),
+        child: Column(children: <Widget>[
+          Padding(padding: EdgeInsets.only(top:48.0),),
+          idea_icon(snapshot),
+          description_section(snapshot),
+          Padding(padding: EdgeInsets.only(top:48.0),),
+          cost_icon(snapshot),
+          Padding(padding: EdgeInsets.only(top:48.0),),
+          number_of_people_icon(snapshot)
+        ]));
   }
 
-  Padding description_section(AsyncSnapshot<Idea> snapshot) {
-    return Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Container(
-            alignment: Alignment.center,
-            height: 100,
-            child: Text('${snapshot.data.description}',
-                softWrap: true,
-                textAlign: TextAlign.center,
-                style: new TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                ))));
+  Row number_of_people_icon(AsyncSnapshot<Idea> snapshot) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+            padding: EdgeInsets.only(right: 8.0), child: Icon(Icons.people)),
+        Text(snapshot.data.numberOfPeople.toString())
+      ],
+    );
+  }
+
+  Row cost_icon(AsyncSnapshot<Idea> snapshot) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        getPriceIndicator(snapshot.data.cost),
+      ],
+    );
+  }
+
+  Icon idea_icon(AsyncSnapshot<Idea> snapshot) {
+    return getIconForActivityType(snapshot.data.activityType, 50.0);
+  }
+
+  Container description_section(AsyncSnapshot<Idea> snapshot) {
+    return Container(
+        alignment: Alignment.center,
+        height: 100,
+        child: Text('${snapshot.data.description}',
+            softWrap: true,
+            textAlign: TextAlign.center,
+            style: new TextStyle(
+              fontSize: 20.0,
+              color: Colors.black,
+            )));
   }
 
   ButtonTheme card_options(BuildContext context) {
     return ButtonTheme.bar(
         child: ButtonBar(
-      alignment: MainAxisAlignment.spaceBetween,
+      alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         IconButton(
+          iconSize: 50,
           icon: Icon(Icons.delete, color: Colors.black),
           onPressed: () {
             ideaBloc.getNewIdea();
           },
         ),
         IconButton(
+          iconSize: 50,
           alignment: Alignment.bottomRight,
           icon: Icon(
             Icons.favorite,
@@ -126,13 +142,18 @@ class IdeaWidget extends StatelessWidget {
       content:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(right: 8.0), child: Icon(Icons.favorite)),
+            padding: EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.favorite,
+              color: Colors.black54,
+            )),
         Text(
           "Favourite Added",
           textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black54),
         )
       ]),
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).primaryColorLight,
     ));
   }
 }

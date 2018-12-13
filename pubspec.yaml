@@ -22,6 +22,7 @@ dependencies:
   http: "^0.11.3+16"
   sqflite: any
   shared_preferences: ^0.4.3
+  path_provider: '>=0.3.0'
 
 dev_dependencies:
   flutter_test:

@@ -17,16 +17,22 @@ class _SettingsPageState extends State<SettingsPage> {
     final SettingsBloc settingsBloc = BlocProvider.of<SettingsBloc>(context);
     return Scaffold(
         appBar: AppBar(title: Text('Settings Page')),
-        body: Center(
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child:
+                      Text("Idea Preferences", style: TextStyle(fontSize: 25))),
               Stepper(
                 onStepContinue: () {
                   if (current_step < 2) {
                     setState(() {
                       current_step++;
                     });
+                  } else {
+                    Navigator.pop(context);
                   }
                 },
                 onStepTapped: (step) {
@@ -55,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
           title: Text("Number of people"),
           content: StreamBuilder<int>(
             stream: settingsBloc.outNumberOfPeople,
-            initialData: 0,
+            initialData: 1,
             builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
               return Column(children: <Widget>[
                 Text(snapshot.data.toString()),
@@ -63,7 +69,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     onChanged: (value) {
                       settingsBloc.changeNumberOfPeople(value.toInt());
                     },
-                    divisions: 8,
+                    divisions: 7,
+                    min: 1,
                     value: snapshot.data.toDouble(),
                     max: 8)
               ]);
@@ -93,7 +100,8 @@ class _SettingsPageState extends State<SettingsPage> {
           content: StreamBuilder<ActivityType>(
               stream: settingsBloc.outActivity,
               initialData: ActivityType.anything,
-              builder: (BuildContext context, AsyncSnapshot<ActivityType> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<ActivityType> snapshot) {
                 return DropdownButton<ActivityType>(
                   value: snapshot.data,
                   items: <ActivityType>[
@@ -123,10 +131,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Row activity_indicator(ActivityType value) {
     return Row(children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: getIconForActivityType(value, 20)),
-                      Text(value.toString().split('.')[1])
-                    ]);
+      Padding(
+          padding: EdgeInsets.all(8.0),
+          child: getIconForActivityType(value, 20)),
+      Text(value.toString().split('.')[1])
+    ]);
   }
 }

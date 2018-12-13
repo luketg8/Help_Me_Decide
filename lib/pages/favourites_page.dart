@@ -17,35 +17,33 @@ class _FavouritesPageState extends State<FavouritesPage> {
         appBar: AppBar(
           title: Text("Favourites"),
         ),
-        body: StreamBuilder<Idea>(
+        body: StreamBuilder<List<Idea>>(
             stream: _favouritesBloc.outIdea,
             initialData: null,
-            builder: (BuildContext context, AsyncSnapshot<Idea> snapshot) {
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Idea>> snapshot) {
               return snapshot.data == null
                   ? Center(
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget> [
-                        Icon(Icons.favorite_border),
-                        Text("No Favourites to Show")
-                      ]))
-                  : Dismissible(
-                      key: Key(snapshot.data.description),
-                      child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[ Text('${snapshot.data.description}',
-                              softWrap: true),
-                              Icon(Icons.done,)
-                              ])),
-                      onDismissed: (direction) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'Removed ${snapshot.data.description} from favourites')));
-                      },
-                      // Show a red background as the item is swiped away
-                      background: Icon(Icons.delete, color: Colors.red),
-                    );
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                          Icon(Icons.favorite_border),
+                          Text("No Favourites to Show")
+                        ]))
+                  : ListView.builder(
+                      itemCount:
+                          snapshot.data != null ? snapshot.data.length : 0,
+                      itemBuilder: (context, i) {
+                        final favourite = snapshot.data[i];
+                        Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Column(children: <Widget>[
+                              Text('${favourite.description}', softWrap: true),
+                              Icon(
+                                Icons.done,
+                              )
+                            ]));
+                      });
             }));
   }
 }

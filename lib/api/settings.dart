@@ -7,20 +7,18 @@ class Settings {
   ///
   final String _kPricePrefs = "price";
   final String _kNumberOfPeoplePrefs = "numOfPeople";
-  final String _kActivityPrefs = "numOfPeople";
+  final String _kActivityPrefs = "activity";
 
   /// ------------------------------------------------------------
   /// Save and set price preferences
   /// ------------------------------------------------------------
   Future<double> getPrice() async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  	return prefs.getDouble(_kPricePrefs) ?? 0.0;
+  	return prefs.getDouble(_kPricePrefs) ?? 1.0;
   }
 
   Future<bool> setPrice(double value) async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   	return prefs.setDouble(_kPricePrefs, value);
   }
 
@@ -29,13 +27,11 @@ class Settings {
   /// ----------------------------------------------------------
   Future<int> getNumOfPeople() async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  	return prefs.getInt(_kNumberOfPeoplePrefs) ?? 0;
+  	return prefs.getInt(_kNumberOfPeoplePrefs) ?? 1;
   }
 
   Future<bool> setNumOfPeople(int value) async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   	return prefs.setInt(_kNumberOfPeoplePrefs, value);
   }
 
@@ -44,13 +40,11 @@ class Settings {
   /// ----------------------------------------------------------
   Future<ActivityType> getActivity() async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   	return prefs.get(_kActivityPrefs) ?? ActivityType.anything;
   }
 
   Future<bool> setActivity(ActivityType value) async {
 	final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   	return prefs.setString(_kActivityPrefs, value.toString());
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:help_me_decide/blocs/bloc_provider.dart';
+import 'package:help_me_decide/enums/activity_helper.dart';
 import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,6 +45,11 @@ class SettingsBloc implements BlocBase{
     {
       _inNumberOfPeople.add(numOfPeople);
     }
+    var activity = getActivityTypeFromString(prefs.getString("activity"));
+    if (activity != null)
+    {
+      _inActivity.add(activity);
+    }
   }
 
   void changeNumberOfPeople(int value) async {
@@ -56,7 +62,8 @@ class SettingsBloc implements BlocBase{
     _inPrice.add(value);
   }
 
-  void changeActivity(ActivityType value){
+  void changeActivity(ActivityType value) async {
+    (await SharedPreferences.getInstance()).setString("activity", value.toString().split('.')[1]);
     _inActivity.add(value);
   }
 }

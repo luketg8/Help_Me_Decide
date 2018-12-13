@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:help_me_decide/blocs/bloc_provider.dart';
 import 'package:help_me_decide/blocs/idea_bloc.dart';
 import 'package:help_me_decide/pages/idea_page.dart';
 
-void main() => runApp(HelpMeDecideApp());
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(HelpMeDecideApp());
+  });
+}
 
 class HelpMeDecideApp extends StatelessWidget {
   @override
@@ -11,10 +16,8 @@ class HelpMeDecideApp extends StatelessWidget {
     return MaterialApp(
       title: 'Help Me Decide',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        primaryColor: Color.fromRGBO(26,83,92,1.0),
-        backgroundColor: Color.fromRGBO(247,255,247,1.0),
-        cardColor: Color.fromRGBO(255,230,109,1.0)
+        primarySwatch: Colors.teal,
+        canvasColor: Color.fromRGBO(244,244,244, 1.0)
       ),
       home: BlocProvider(bloc: IdeaBloc(), child: IdeaPage()),
     );
