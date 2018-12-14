@@ -10,8 +10,10 @@ class IdeasApi {
   Future<Idea> getIdea() async {
     var prefs = await SharedPreferences.getInstance();
     var idea;
-    if (getActivityTypeFromString(prefs.get("activity")) !=
-        ActivityType.anything) {
+
+    //if activity is 'anything' then don't make a request including it
+    var activity = prefs.get("activity");
+    if (activity != null && activity != "anything") {
       idea = await http.get(
           "https://www.boredapi.com/api/activity?minprice=${prefs.getDouble("price")}&participants=${prefs.getInt("numOfPeople")}&type=${prefs.get("activity")}");
     } else {
@@ -24,15 +26,12 @@ class IdeasApi {
       if (jsonResponse["error"] != null) {
         return Idea.empty();
       }
-
-      ActivityType activityType =
-          getActivityTypeFromString(jsonResponse["type"]);
-      Idea _idea = Idea(
+      
+      return Idea(
           jsonResponse["activity"],
           jsonResponse["price"].toDouble(),
           jsonResponse["participants"],
-          activityType);
-      return _idea;
+          getActivityTypeFromString(jsonResponse["type"]));
     }
     return Idea.empty();
   }

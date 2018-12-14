@@ -15,36 +15,31 @@ class _FavouritesPageState extends State<FavouritesPage> {
     final FavouritesBloc _favouritesBloc =
         BlocProvider.of<FavouritesBloc>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Favourites")
-        ),
-        body: StreamBuilder<List<Idea>>(
-            stream: _favouritesBloc.outIdea,
-            initialData: null,
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Idea>> snapshot) {
-              return snapshot.data == null || snapshot.data.length == 0
-                  ? Center(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                          Icon(Icons.favorite_border),
-                          Text("No Favourites to Show")
-                        ]))
-                  : ListView.builder(
-                      itemCount:
-                          snapshot.data != null ? snapshot.data.length : 0,
-                      itemBuilder: (context, i) {
-                        final favourite = snapshot.data[i];
-                        return Column(children: <Widget>[
-                              Padding(
-                            padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                            child: FavouriteWidget(
+        appBar: AppBar(title: Text("Favourites")),
+        body: Padding(
+            padding: EdgeInsets.only(left: 8.0, right: 8.0),
+            child: StreamBuilder<List<Idea>>(
+                stream: _favouritesBloc.outIdea,
+                initialData: null,
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Idea>> snapshot) {
+                  return snapshot.data == null || snapshot.data.length == 0
+                      ? Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                              Icon(Icons.favorite_border),
+                              Text("No Favourites to Show")
+                            ]))
+                      : ListView.builder(
+                          itemCount:
+                              snapshot.data != null ? snapshot.data.length : 0,
+                          itemBuilder: (context, i) {
+                            final favourite = snapshot.data[i];
+                            return FavouriteWidget(
                                   favourite: favourite,
-                                  favouritesBloc: _favouritesBloc)),
-                              Divider()
-                            ]);
-                      });
-            }));
+                                  favouritesBloc: _favouritesBloc);
+                          });
+                })));
   }
 }

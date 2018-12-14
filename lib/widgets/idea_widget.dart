@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/idea_bloc.dart';
 import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:help_me_decide/models/idea.dart';
-import 'package:help_me_decide/widgets/activity_widget.dart';
-import 'package:help_me_decide/widgets/price_widget.dart';
+import 'package:help_me_decide/widgets/cost_icon.dart';
+import 'package:help_me_decide/widgets/idea_icon.dart';
+import 'package:help_me_decide/widgets/people_icon.dart';
 
 class IdeaWidget extends StatelessWidget {
   const IdeaWidget({
@@ -20,97 +21,72 @@ class IdeaWidget extends StatelessWidget {
       initialData: null,
       builder: (BuildContext context, AsyncSnapshot<Idea> snapshot) {
         return Column(children: <Widget>[
-          Container(
-              height: 400,
-              child: Dismissible(
-                  key: Key(snapshot.data.toString()),
-                  child: Padding(
-                      padding:
-                          EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-                      child: snapshot.data == null
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                  IconButton(
-                                      iconSize: 100,
-                                      onPressed: () {
-                                        ideaBloc.getNewIdea();
-                                      },
-                                      icon: Icon(Icons.lightbulb_outline),
-                                      color: Colors.grey),
-                                  Text("Powered by http://www.boredapi.com/",
-                                      textAlign: TextAlign.end)
-                                ])
-                          : idea_card(snapshot)),
-                  onDismissed: (DismissDirection direction) {
-                    ideaBloc.getNewIdea();
-                    if (snapshot.data == null || snapshot.data.activityType == ActivityType.anything)
-                    {
-                      return;
-                    }
-                    if (direction == DismissDirection.startToEnd) {
-                      ideaBloc.favourite();
-                      ideaBloc.getNewIdea();
-                      favourite_snackbar(context);
-                    } else {}
-                  })),
-          card_options(context, snapshot.data)
-        ]);
+              Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                  child: Dismissible(
+                      key: Key(snapshot.data.toString()),
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: snapshot.data == null
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                      IconButton(
+                                          iconSize: 100,
+                                          onPressed: () {
+                                            ideaBloc.getNewIdea();
+                                          },
+                                          icon: Icon(Icons.lightbulb_outline),
+                                          color: Colors.grey),
+                                      Text(
+                                          "Powered by http://www.boredapi.com/",
+                                          textAlign: TextAlign.end)
+                                    ])
+                              : idea_card(context, snapshot)),
+                      onDismissed: (DismissDirection direction) {
+                        ideaBloc.getNewIdea();
+                        if (snapshot.data == null ||
+                            snapshot.data.activityType ==
+                                ActivityType.anything) {
+                          return;
+                        }
+                        if (direction == DismissDirection.startToEnd) {
+                          ideaBloc.favourite();
+                          ideaBloc.getNewIdea();
+                          favourite_snackbar(context);
+                        } else {}
+                      })),
+              card_options(context, snapshot.data)
+            ]);
       },
     );
   }
 
-  Card idea_card(AsyncSnapshot<Idea> snapshot) {
+  Card idea_card(BuildContext context, AsyncSnapshot<Idea> snapshot) {
     return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
         margin: EdgeInsets.all(0.0),
         child: Column(children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 48.0),
-          ),
-          idea_icon(snapshot),
-          description_section(snapshot),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height) * 0.05),
+          IdeaIcon(snapshot: snapshot.data, size: 50.0),
+          description_section(snapshot.data),
           Padding(
-            padding: EdgeInsets.only(top: 48.0),
-          ),
-          cost_icon(snapshot),
+            padding: EdgeInsets.only(top:  MediaQuery.of(context).size.height) * 0.05),
+          CostIcon(snapshot: snapshot.data),
           Padding(
-            padding: EdgeInsets.only(top: 48.0),
-          ),
-          number_of_people_icon(snapshot)
+            padding: EdgeInsets.only(top:  MediaQuery.of(context).size.height) * 0.05),
+          PeopleIcon(snapshot: snapshot.data)
         ]));
   }
 
-  Row number_of_people_icon(AsyncSnapshot<Idea> snapshot) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 8.0), child: Icon(Icons.people)),
-        Text(snapshot.data.numberOfPeople.toString())
-      ],
-    );
-  }
-
-  Row cost_icon(AsyncSnapshot<Idea> snapshot) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        getPriceIndicator(snapshot.data.cost),
-      ],
-    );
-  }
-
-  Icon idea_icon(AsyncSnapshot<Idea> snapshot) {
-    return getIconForActivityType(snapshot.data.activityType, 50.0);
-  }
-
-  Container description_section(AsyncSnapshot<Idea> snapshot) {
+  Container description_section(Idea snapshot) {
     return Container(
         alignment: Alignment.center,
         height: 100,
-        child: Text('${snapshot.data.description}',
+        child: Text('${snapshot.description}',
             softWrap: true,
             textAlign: TextAlign.center,
             style: new TextStyle(
@@ -177,3 +153,4 @@ class IdeaWidget extends StatelessWidget {
     ));
   }
 }
+

@@ -38,7 +38,7 @@ class _IdeaPageState extends State<IdeaPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
             IdeaWidget(ideaBloc: ideaBloc),
-            Container(
+            /*Container(
               child: Column(
                 children: <Widget>[
                   RaisedButton(
@@ -58,7 +58,7 @@ class _IdeaPageState extends State<IdeaPage> {
                   )
                 ],
               )
-            ),])),
+            )*/])),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
           tooltip: "Settings",

@@ -1,3 +1,4 @@
+import 'package:help_me_decide/enums/activity_helper.dart';
 import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,8 +40,8 @@ class Settings {
   /// Save and set activity preferences
   /// ----------------------------------------------------------
   Future<ActivityType> getActivity() async {
-	final SharedPreferences prefs = await SharedPreferences.getInstance();
-  	return prefs.get(_kActivityPrefs) ?? ActivityType.anything;
+	  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  	return getActivityTypeFromString(prefs.getString(_kActivityPrefs)) ?? ActivityType.anything;
   }
 
   Future<bool> setActivity(ActivityType value) async {
