@@ -68,7 +68,7 @@ class OptionsRow extends StatelessWidget {
             showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
+                firstDate: DateTime(2018),
                 lastDate: DateTime(2101));
           }),
       IconButton(
