@@ -3,6 +3,7 @@ import 'package:help_me_decide/enums/activity_type.dart';
 
 class Idea{
   Idea(this.description, this.cost, this.numberOfPeople, this.activityType){
+    this.completed = false;
   }
   Idea.empty(){
     this.description = "No ideas match your current settings";
@@ -22,4 +23,5 @@ class Idea{
   double cost;
   int numberOfPeople;
   ActivityType activityType;
+  bool completed;
 }

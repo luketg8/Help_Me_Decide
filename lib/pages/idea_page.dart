@@ -33,34 +33,9 @@ class _IdeaPageState extends State<IdeaPage> {
         ],
       ),
       body: Container(
-          alignment: Alignment.center,
-          child: Column( 
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-            IdeaWidget(ideaBloc: ideaBloc),
-            /*Container(
-              child: Column(
-                children: <Widget>[
-                  RaisedButton(
-                    color: Colors.teal.shade200,
-                    child: Text("Too Expensive?"),
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    color: Colors.teal.shade200,
-                    child: Text("Change Activity Type"),
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    color: Colors.teal.shade200,
-                    child: Text("Change Number of People"),
-                    onPressed: (){},
-                  )
-                ],
-              )
-            )*/])),
+          alignment: Alignment.center, child: IdeaWidget(ideaBloc: ideaBloc)),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           tooltip: "Settings",
           child: Icon(Icons.settings),
           onPressed: () {

@@ -24,12 +24,25 @@ class Favourites {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-    "CREATE TABLE Favourite(id INTEGER PRIMARY KEY, description TEXT, cost DOUBLE, people INT, activityType TEXT )");
+    "CREATE TABLE Favourite(id INTEGER PRIMARY KEY, description TEXT, cost DOUBLE, people INT, activityType TEXT, done BOOL)");
   }
   
   Future<List<Idea>> getFavourites() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Favourite');
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Favourite WHERE done = ?', [false]);
+    List<Idea> ideas = new List<Idea>();
+    if (list.length > 0) {
+      for (var idea in list)
+      {
+        ideas.add(Idea.fromMap(idea));
+      }
+    }
+    return ideas;
+  }
+
+  Future<List<Idea>> getDoneFavourites() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Favourite WHERE done = ?', [true]);
     List<Idea> ideas = new List<Idea>();
     if (list.length > 0) {
       for (var idea in list)
@@ -43,8 +56,15 @@ class Favourites {
   Future saveData(Idea idea) async {
     var dbClient = await db;
     dbClient.rawInsert(
-      'INSERT INTO Favourite(description, cost, people, activityType) VALUES(?, ?, ?, ?)',
-      [idea.description, idea.cost, idea.numberOfPeople, idea.activityType.toString().split('.')[1]]);
+      'INSERT INTO Favourite(description, cost, people, activityType, done) VALUES(?, ?, ?, ?, ?)',
+      [idea.description, idea.cost, idea.numberOfPeople, idea.activityType.toString().split('.')[1], false]);
+  }
+
+  Future markAsDone(Idea idea) async {
+    var dbClient = await db;
+    dbClient.rawInsert(
+      'UPDATE Favourite SET done = ? WHERE description = ?',
+      [true, idea.description]);
   }
 
   Future removeData(Idea idea) async {

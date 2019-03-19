@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:help_me_decide/enums/activity_type.dart';
 
-Icon getIconForActivityType(ActivityType type, double size) {
+class ActivityIcon extends StatelessWidget {
+  const ActivityIcon({Key key, @required this.type, @required this.size})
+      : super(key: key);
+
+  final ActivityType type;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
     switch (type) {
       case ActivityType.busywork:
         return Icon(Icons.calendar_today, size: size);
@@ -25,3 +33,4 @@ Icon getIconForActivityType(ActivityType type, double size) {
         return Icon(Icons.do_not_disturb, size: size);
     }
   }
+}

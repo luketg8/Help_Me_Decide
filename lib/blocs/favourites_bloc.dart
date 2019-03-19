@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:help_me_decide/api/favourites.dart';
-import 'package:help_me_decide/api/ideas_api.dart';
 import 'package:help_me_decide/blocs/bloc_provider.dart';
 import 'package:help_me_decide/models/idea.dart';
 
@@ -18,7 +17,6 @@ class FavouritesBloc implements BlocBase{
 
   FavouritesBloc(){
     refreshIdeas();
-    
     _updateIdeaController.stream.listen(_updateIdea);
   }
 
@@ -38,6 +36,11 @@ class FavouritesBloc implements BlocBase{
   void _updateIdea(Idea idea){
     _idea.add(idea);
     _inIdea.add(_idea);
+  }
+
+  void markIdeaAsDone(Idea idea){
+    favouritesApi.markAsDone(idea);
+    refreshIdeas();
   }
 
   void deleteIdea(Idea idea){

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:help_me_decide/blocs/bloc_provider.dart';
 import 'package:help_me_decide/blocs/settings_bloc.dart';
 import 'package:help_me_decide/enums/activity_type.dart';
-import 'package:help_me_decide/widgets/activity_widget.dart';
-import 'package:help_me_decide/widgets/price_widget.dart';
+import 'package:help_me_decide/widgets/activity_icon.dart';
+import 'package:help_me_decide/widgets/price_icon.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -86,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
               initialData: 0,
               builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                 return Column(children: <Widget>[
-                  getPriceIndicator(snapshot.data),
+                  PriceIcon(cost: snapshot.data, size: 25),
                   Slider(
                       onChanged: (value) {
                         settingsBloc.changePrice(value);
@@ -135,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Row(children: <Widget>[
       Padding(
           padding: EdgeInsets.all(8.0),
-          child: getIconForActivityType(value, 20)),
+          child: ActivityIcon(type: value, size:20.0)),
       Text(value.toString().split('.')[1])
     ]);
   }

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:help_me_decide/enums/activity_helper.dart';
-import 'package:help_me_decide/enums/activity_type.dart';
 import 'package:help_me_decide/models/idea.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
